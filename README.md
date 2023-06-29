@@ -16,7 +16,7 @@
 บทความนี้จึงจะมาทดสอบบอร์ดนี้กัน 
 
 ### ทดสอบ LED 
-เนื่องจากบนบอร์ดมี LED จำนวน 3 ดวง 3 สี คือ สีแดงอยู่ที่ขา 22 สีเขียวอยู่ที่ขา 17 และ สีเหลืองอยู่ที่ขา 27 ดังนั้นจะเขียนโปรแกรมให้วนกระพริบดวงละ 0.5 วินาที 
+เนื่องจากบนบอร์ดมี LED จำนวน 3 ดวง 3 สี คือ สีแดงอยู่ที่ขา 22 สีเขียวอยู่ที่ขา 17 และ สีเหลืองอยู่ที่ขา 27 ดังนั้นจะเขียนโปรแกรมให้วนกระพริบดวงละ 0.5 วินาที โดยมีโปรแกรมดังนี้
 
 ```Python
 GPIO.setup(green_pin, GPIO.OUT)
@@ -45,4 +45,30 @@ while(1):
             led_counter+=1
         else :
             led_counter=0
+```
+
+### ทดสอบสวิตซ์ Push Button 
+เนื่องจากบนบอร์ดมีปุ่ม Push Button อยู่ 1 ปุ่ม โดยอยู่ที่ขา 26 จึงเขียนโปรแกรมให้นับจำนวนครั้งที่มีการกด โดยจะตรวจสอบการกดโดยใช้ ขอบขาลง (Falling Edge) และหากมีการกดให้ไปทำงานในฟังก์ชัน press_sw โดยมีโปรแกรมดังนี้
+
+```Python
+
+from RPi import GPIO
+from time import sleep
+
+press_sw_pin = 26
+press_sw_counter = 0
+
+def press_sw_callback(channel):
+    global press_sw_counter
+    press_sw_counter += 1
+    print("Button switch press "+str(press_sw_counter)+" times")
+
+GPIO.setwarnings(False)
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(press_sw_pin, GPIO.IN)
+GPIO.add_event_detect(press_sw_pin, GPIO.FALLING , callback=press_sw_callback, bouncetime=300)
+
+print("Press button switch to increase counter")
+while(1):
+    sleep(0.1)
 ```
