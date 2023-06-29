@@ -72,3 +72,6 @@ print("Press button switch to increase counter")
 while(1):
     sleep(0.1)
 ```
+
+### ทดสอบ NeoPixel 
+เนื่องจากบนบอร์ดมีไฟ NeoPixel อยู่ 1 ดวง คราวนี้เราจะใช้ Library โดยต้องติดตั้งก่อน โดยใช้คำสั่ง pip install rpi_ws281x 
